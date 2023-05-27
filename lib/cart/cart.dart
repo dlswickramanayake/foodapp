@@ -1,8 +1,13 @@
+import 'package:test/test2.dart';
 import 'cart_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:test/cart/total_page.dart';
+import 'package:test/utility/dimentions.dart';
+import 'package:test/cart/widgets/bigtext.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+
 
 main(){
   runApp(MaterialApp(
@@ -23,10 +28,13 @@ class _MyCartState extends State<MyCart> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Cart"),
-        leading: Icon(Icons.home,size: 25,),
-        backgroundColor:Colors.transparent,
-        elevation: 0,
+        title: Text("Cart",style: TextStyle(fontSize: 25.0),),
+        leading: IconButton(
+          onPressed: (){
+            Navigator.push(context, MaterialPageRoute(builder: (context) =>MyApp() ));
+          },
+          icon: Icon(Icons.home),
+        ),
         flexibleSpace: Container(
           decoration: const BoxDecoration(
             gradient:LinearGradient(colors:[
@@ -67,9 +75,10 @@ class _MyCartState extends State<MyCart> {
                     height: 80.0,
                     decoration: BoxDecoration(
                       color: Colors.grey,
-                      image: DecorationImage(
-                        image: NetworkImage(
-                            'https://houseofnasheats.com/wp-content/uploads/2023/01/Chicken-Fried-Rice-Recipe-Square-1.jpg'),
+                      image: DecorationImage(fit: BoxFit.cover,
+                        image: AssetImage(
+                            "assets/chicken-rice.jpg",
+                        ),
                       ),
                       borderRadius: BorderRadius.circular(20.0),
                     ),
@@ -86,11 +95,11 @@ class _MyCartState extends State<MyCart> {
                         ),
                       ),
                       SizedBox(height: 12,),
-                      Text('Rs.350',style: TextStyle(fontSize: 16),)
+                      Text('Rs.450',style: TextStyle(fontSize: 16),)
                     ],
                   ),
                   Expanded(child: Container()),
-                  Text('Quantity = 2',style: TextStyle(fontSize: 16),),
+                  Text('Quantity = 1',style: TextStyle(fontSize: 16),),
                 ],
               ),
 
@@ -118,9 +127,10 @@ class _MyCartState extends State<MyCart> {
                     height: 80.0,
                     decoration: BoxDecoration(
                       color: Colors.grey,
-                      image: DecorationImage(
-                        image: NetworkImage(
-                            'https://houseofnasheats.com/wp-content/uploads/2023/01/Chicken-Fried-Rice-Recipe-Square-1.jpg'),
+                      image: DecorationImage(fit: BoxFit.cover,
+                        image: AssetImage(
+                          "assets/kottu-1.jpg",
+                        ),
                       ),
                       borderRadius: BorderRadius.circular(20.0),
                     ),
@@ -138,7 +148,7 @@ class _MyCartState extends State<MyCart> {
                         ),
                       ),
                       SizedBox(height: 12,),
-                      Text('Rs.450',style: TextStyle(fontSize: 16),)
+                      Text('Rs.500',style: TextStyle(fontSize: 16),)
                     ],
                   ),
                   Expanded(child: Container()),
@@ -150,7 +160,62 @@ class _MyCartState extends State<MyCart> {
         ),
 
       ),
+      bottomNavigationBar: Container(
+        height: Dimensions.bottomHeightBar,
+        padding: EdgeInsets.only(top:Dimensions.height30, bottom: Dimensions.height30, left: Dimensions.width10, right: Dimensions.width10),
+        decoration: BoxDecoration(
+            color: Colors.grey,
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(Dimensions.radius20*2),
+              topRight: Radius.circular(Dimensions.radius20*2),
+            )
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Container(
+              padding: EdgeInsets.only(top: Dimensions.height20, bottom: Dimensions.height20, left: Dimensions.width10, right: Dimensions.width10),
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(Dimensions.radius20),
+                  color: Colors.white
+              ),
+              child: Row(
+                children: [
+                  SizedBox(width: Dimensions.width20,),
+                  BigText(text: "Total = Rs.950"),
+                  SizedBox(width: Dimensions.width20,),
+                ],
+              ),
+            ),
+            Container(
+              padding: EdgeInsets.only(top: Dimensions.height20, bottom: Dimensions.height20, left: Dimensions.width10,right: Dimensions.width10),
+              child: ElevatedButton(
 
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.transparent,
+                  elevation: 0,
+                ),
+                onPressed: (){
+                  Fluttertoast.showToast(
+                      msg: "Order Confirmed",
+                      toastLength: Toast.LENGTH_SHORT,
+                      gravity: ToastGravity.TOP,
+                      timeInSecForIosWeb: 2,
+                      backgroundColor: Colors.green,
+                      textColor: Colors.white,
+                      fontSize: 16.0
+                  );
+                },
+                child: Text('Confirm Order',style: TextStyle(fontSize: 16.0),),
+              ),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular((Dimensions.radius20),),
+                color: Colors.green,
+              ),
+            )
+          ],
+        ),
+      ),
     );
   }
 }

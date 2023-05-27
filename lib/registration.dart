@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:test/login/login.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 main(){
   runApp(MaterialApp(
@@ -90,7 +91,15 @@ class RegistrationFormUI extends StatelessWidget {
                           ElevatedButton(
                             child: Text('Submit'),
                             onPressed: () {
-                              Navigator.push(context, MaterialPageRoute(builder: (context) =>loginPage() ));
+                              Fluttertoast.showToast(
+                                  msg: "Succsessfull!!",
+                                  toastLength: Toast.LENGTH_SHORT,
+                                  gravity: ToastGravity.BOTTOM,
+                                  timeInSecForIosWeb: 2,
+                                  backgroundColor: Colors.green,
+                                  textColor: Colors.white,
+                                  fontSize: 16.0
+                              );
                             },
                           ),
                         ],

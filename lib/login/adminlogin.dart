@@ -1,8 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:test/adminhome.dart';
 import 'package:test/login/login.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:test/firebase_options.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:test/adminhome.dart';
 
-main(){
+main()async{
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,);
   runApp(MaterialApp(
     home: adminlogin(),
   ));
@@ -16,6 +23,17 @@ class adminlogin extends StatefulWidget {
 }
 
 class _loginPageState extends State<adminlogin> {
+
+  final unamecontroller=TextEditingController();
+  final passcontroller=TextEditingController();
+
+  void signIn()async{
+    await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: unamecontroller.text,
+        password: passcontroller.text,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -51,6 +69,7 @@ class _loginPageState extends State<adminlogin> {
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: TextField(
+                    controller: unamecontroller,
                     decoration: InputDecoration (
                       border: InputBorder.none,
                       hintText: '  Email',
@@ -70,6 +89,7 @@ class _loginPageState extends State<adminlogin> {
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: TextField(
+                    controller: passcontroller,
                     obscureText: true,
                     decoration: InputDecoration (
                       border: InputBorder.none,
@@ -86,7 +106,12 @@ class _loginPageState extends State<adminlogin> {
                   style: ElevatedButton.styleFrom(
                       minimumSize: Size(500, 40)
                   ),
-                  onPressed: (){},
+                  onPressed: (){
+                    signIn();
+                    if(mounted){
+                      Navigator.push(context, MaterialPageRoute(builder: (context) =>Top() ));
+                    }
+                  },
                   child: Text("Sign in",style: TextStyle(fontSize: 16),),
                 ),
               ),
